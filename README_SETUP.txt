@@ -1,24 +1,7 @@
-{
-    "version": 3,
-    "configurePresets": [
-        {
-            "name": "base",
-            "hidden": true,
-            "generator": "Ninja",
-            "binaryDir": "${sourceDir}/build/${presetName}",
-            "installDir": "${sourceDir}/install/${presetName}",
-            "architecture": { "value": "x64", "strategy": "external" },
-            "cacheVariables": {
-                "CMAKE_CXX_COMPILER": "cl.exe",
-                "CMAKE_CXX_FLAGS": "/permissive- /Zc:preprocessor /EHsc /MP /W4 -DWIN32_LEAN_AND_MEAN -DNOMINMAX -DUNICODE -D_UNICODE",
-                "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
-                "VCPKG_EXECUTABLE": "$env{VCPKG_ROOT}/vcpkg.exe",
-                "VCPKG_TARGET_TRIPLET": "x64-windows-static",
-                "VCPKG_OVERLAY_TRIPLETS": "${sourceDir}/cmake",
-                "CMAKE_MSVC_RUNTIME_LIBRARY": "MultiThreaded$<$<CONFIG:Debug>:Debug>",
-                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
-            }
-        },
+Download cmake 3.29.9
+Download msys2 and install to C:\msys2
+Git clone vcpkg and bootstrap.sh
+Update CMakePresets.json to use new debug and release presets:
         {
             "name": "debug",
             "inherits": ["base"],
@@ -49,5 +32,11 @@
             "environment": {
             }
         }
-    ]
-}
+Set VCPKG_MSYS2_PATH to C:\msys2
+Set VCPKG_ROOT to [path to repo directory that should have vcpkg.exe in it]
+Allow for VSCode to configure the build directory via cmake
+Open via Win+Search "x64 Native Tools Command Prompt for VS 2022"
+	cd E:\Path\to\mod\project\repo
+	cmake --preset release
+	cmake --build build/release
+The dll should now exist in the release folder
